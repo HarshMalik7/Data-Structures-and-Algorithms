@@ -1,0 +1,22 @@
+//This is the solution for problem no. 1022 on leetcode
+//Here, we use two bitwise operators; Bitwise OR "|" and Leftshift "<<" operator.
+//The idea is to first shift the bits of the already present answer "curr_val" by 1 and then bitwise OR "|" it with root->val (value of the current node)
+
+class Solution {
+public:
+    int sumRootToLeaf(TreeNode* root, int curr_val = 0) {
+        if(root == nullptr) return 0;
+        if(root->left == nullptr && root->right == nullptr){
+            curr_val = (curr_val << 1) | root->val;
+            return curr_val;
+        }
+        
+        curr_val = (curr_val << 1) | root->val;
+        int ans = 0;
+        
+        ans = ans + sumRootToLeaf(root->left, curr_val);
+        ans = ans + sumRootToLeaf(root->right, curr_val);
+        
+        return ans;
+    }
+};
