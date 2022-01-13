@@ -1,0 +1,56 @@
+//This is the question number 14 on leetcode
+//Brute Force Solution :
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if(strs.empty()){
+            return "";
+        }
+        if(strs[0] == "") return "";
+        string ans = "";
+        string str = strs[0];
+        bool notEqual = false;
+        for(int i = 0; i < str.size(); i++){
+            for(int j = 1; j < strs.size(); j++){
+                if(strs[j] == "" || i == strs[j].size() || strs[j][i] != str[i]){
+                    notEqual = true;
+                    break;
+                }
+            }
+            if(notEqual) break;
+            ans+=str[i];
+            if(i+1 == str.length()) break;
+        }
+        return ans;
+    }
+};
+
+//A more optimised solution :
+//Here we have first sorted the array and then just compared the first and the last element, because after sorting, the most dissimilar elements would be on either ends of
+//the vector, hence the the solution becomes from O(n^2) to O(nlogn)
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if(strs.empty()){
+            return "";
+        }
+        if(strs[0] == "") return "";
+        string ans = "";
+        string str = strs[0];
+        bool notEqual = false;
+        for(int i = 0; i < str.size(); i++){
+            for(int j = 1; j < strs.size(); j++){
+                if(strs[j] == "" || i == strs[j].size() || strs[j][i] != str[i]){
+                    notEqual = true;
+                    break;
+                }
+            }
+            if(notEqual) break;
+            ans+=str[i];
+            if(i+1 == str.length()) break;
+        }
+        return ans;
+    }
+};
