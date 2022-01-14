@@ -21,7 +21,6 @@ public:
                 fast=fast->next;
                 continue;
             }
-            //if(fast->next->next != nullptr){
             size+=2;
             stk.push(slow);
             slow = slow->next;
@@ -38,7 +37,6 @@ public:
                     slow=slow->next;
                 }
             }
-            //return true;
         }
         else{
             slow=slow->next;
@@ -51,7 +49,6 @@ public:
                     slow=slow->next;
                 }
             }
-            //return true;
         }
         return true;
     }
@@ -60,3 +57,20 @@ public:
 //Above Solution uses a stack which increases the Space Complexity of the solution, so here is another more optimised approach to the question:
 //In the approach, we find the middle element like we did above, but in doing so, we flip the first half of the Linked List. The previous to slow pointer will point to the
 //beginning of the reversed first half LL we have now created. Now we just compare the 2 new Linked Lists and we're done.
+
+class Solution {
+    public: 
+    bool isPalindrome(ListNode* head) {
+	    ListNode *slow = head, *fast = head, *prev = NULL, *temp;
+	    while(fast && fast -> next){ // Finding the mid point, reversing the first half of LL, 
+		    fast = fast -> next -> next,
+		    temp = slow -> next, slow -> next = prev, prev = slow, slow = temp;
+        }
+	    slow = (fast ? slow -> next : slow); // If the length is odd, slow->next will be the beginning of the second half of LL else slow itself will be the beginning.
+	    while(slow){ // Comparison of the Linked List
+		    if(slow -> val != prev -> val) return false;
+		    else slow = slow -> next, prev = prev -> next;
+	    }
+        return true;
+    }
+};
