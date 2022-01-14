@@ -54,7 +54,7 @@ public:
     }
 };
 
-//Above Solution uses a stack which increases the Space Complexity of the solution, so here is another more optimised approach to the question:
+//Above Solution uses a stack which increases the Space Complexity of the solution, so here is another more optimised approach to the question (only in terms of Space):
 //In the approach, we find the middle element like we did above, but in doing so, we flip the first half of the Linked List. The previous to slow pointer will point to the
 //beginning of the reversed first half LL we have now created. Now we just compare the 2 new Linked Lists and we're done.
 
