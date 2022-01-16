@@ -1,0 +1,79 @@
+//Question no. 148 on leetcode
+//For this question, I used Merge Sort to sort the linked list.
+
+class Solution {
+public:
+    
+    void sort(ListNode*& head, ListNode* &head2){
+        if(head == nullptr || head2 == nullptr) return;
+        
+        ListNode* tail, *curr = head;
+        
+        if(curr->val <= head2->val){
+            tail = curr;
+            curr = curr->next;
+        }
+        else{
+            tail = head2;
+            head = head2;
+            head2 = head2->next;
+        }
+        
+        while(curr && head2){
+            if(curr->val <= head2->val){
+                tail->next = curr;
+                tail = curr;
+                curr = curr->next;
+            }
+            else{
+                tail->next = head2;
+                tail = head2;
+                head2 = head2->next;
+            }
+        }
+        
+        if(curr){
+            tail->next = curr;
+        }
+        if(head2){
+            tail->next = head2;
+        }
+        
+        return;
+    }
+    
+    ListNode* middle(ListNode* head){
+        if(head == nullptr) return head;
+        
+        ListNode *slow = head, *fast = head->next;
+        
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        return slow;
+    }
+    
+    void split(ListNode* &head){
+        if(head == nullptr || head->next == nullptr) return;
+        
+        ListNode * mid = middle(head);
+        ListNode * head2 = mid->next;
+        mid->next = nullptr;
+        
+        split(head);
+        split(head2);
+        
+        sort(head, head2);
+        return;
+    }
+    
+    ListNode* sortList(ListNode* head) {
+        if(head == nullptr) return head;
+        
+        split(head);
+        
+        return head;
+    }
+};
