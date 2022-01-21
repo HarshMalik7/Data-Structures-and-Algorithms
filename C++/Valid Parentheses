@@ -1,0 +1,80 @@
+//Question no. 20 on leetcode
+
+//My first approach, more of a naive approach
+
+
+class Solution {
+public:
+    bool isValid(string s) {
+        if(s.size() == 1){
+            return false;
+        }
+        stack<char> gen;
+        
+        gen.push(s[0]);
+        if(gen.top() == '}' || gen.top() == ']' || gen.top() == ')'){
+            return false;
+        }
+        
+        for(int i = 1; s[i] != '\0'; i++){
+            if(s[i] == '(' || s[i] == ')'){
+                if(gen.top() == '(' && s[i] == ')'){
+                    gen.pop();
+                    if(gen.empty() && s[i + 1] != '\0'){
+                        gen.push(s[++i]);
+                    }
+                }
+                else{
+                    gen.push(s[i]);
+                }
+            }
+            else if(s[i] == '{' || s[i] == '}'){
+                if(gen.top() == '{' && s[i] == '}'){
+                    gen.pop();
+                    if(gen.empty() && s[i + 1] != '\0'){
+                        gen.push(s[++i]);
+                    }
+                }
+                else{
+                    gen.push(s[i]);
+                }
+            }
+            else{
+                if(gen.top() == '[' && s[i] == ']'){
+                    gen.pop();
+                    if(gen.empty() && s[i + 1] != '\0'){
+                        gen.push(s[++i]);
+                    }
+                }
+                else{
+                    gen.push(s[i]);
+                }
+            }
+        }
+        
+        if(gen.empty()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
+
+//This approach will give the same output, in same time as well, but more neat and slimmer
+
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char>st; st.push('%');
+        for(auto e:s){
+            if(e=='('|| e=='{'|| e=='[') st.push(e);
+            else{
+                if(e==')') if(st.top()!='(') return false; else st.pop();
+                else if(e=='}') if(st.top()!='{') return false; else st.pop();
+                else if(e==']') if(st.top()!='[') return false; else st.pop();
+            }
+        }
+        return st.size()==1;
+    }
+};
