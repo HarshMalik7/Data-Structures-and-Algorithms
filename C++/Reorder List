@@ -1,0 +1,26 @@
+//Question no. 143 on Leetcode
+
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        vector<ListNode *> list;
+        ListNode * ptr = head;
+        while(ptr != NULL){
+            list.push_back(ptr);
+            ptr = ptr->next;
+        }
+        
+        ptr = head;
+        int hSize = list.size() / 2;
+        int i = 1;
+        
+        while(list.size() > hSize && list.size() != i){
+            ptr->next = list[list.size() - 1];
+            ptr->next->next = list[i];
+            ptr = list[i];
+            list.pop_back();
+            i++;
+        }
+        ptr->next = NULL;
+    }
+};
