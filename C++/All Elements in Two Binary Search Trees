@@ -1,0 +1,76 @@
+//Question no. 1305 on Leetcode
+
+//There are several ways to do this, here's the first approach I used:
+
+//1. Using inorder traversal, I filled the vectors with the values of nodes for both BST and then merged both the vectors.
+
+class Solution {
+public:
+    void inorder(TreeNode * root, vector<int> &elements){
+        if(root == nullptr) return;
+        inorder(root->left, elements);
+        elements.push_back(root->val);
+        inorder(root->right, elements);
+    }
+    
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int>ele1;
+        vector<int>ele2;
+        vector<int> ans;
+        inorder(root1, ele1);
+        inorder(root2, ele2);
+        
+        int i = 0, j = 0;
+        while(i < ele1.size() && j < ele2.size()){
+            if(ele1[i] < ele2[j]){
+                ans.push_back(ele1[i]);
+                i++;
+            }
+            else if(ele1[i] > ele2[j]){
+                ans.push_back(ele2[j]);
+                j++;
+            }
+            else{
+                ans.push_back(ele1[i]);
+                i++;
+                ans.push_back(ele2[j]);
+                j++;
+            }
+        }
+        while(i < ele1.size()){
+            ans.push_back(ele1[i]);
+            i++;
+        }
+        while(j < ele2.size()){
+            ans.push_back(ele2[j]);
+            j++;
+        }
+        return ans;
+    }
+};
+
+//2. Another way to do this question is by using minimum priority queue. We simply perform inorder traversal on both BST and fill the same priority queue.
+//Then we simply push all its elements one by one in an vector and return that vector.
+
+class Solution {
+public:
+    void inorder(TreeNode * root, priority_queue<int, vector<int>, greater<int>> &elements){
+        if(root == nullptr) return;
+        inorder(root->left, elements);
+        elements.push(root->val);
+        inorder(root->right, elements);
+    }
+    
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        priority_queue<int, vector<int>, greater<int>> pq;
+        vector<int> ans;
+        inorder(root1, pq);
+        inorder(root2, pq);
+        
+        while(!pq.empty()){
+            ans.push_back(pq.top());
+            pq.pop();
+        }
+        return ans;
+    }
+};
