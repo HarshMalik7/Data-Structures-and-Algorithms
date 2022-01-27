@@ -1,0 +1,28 @@
+//Question no. 1742 on Leetcode
+
+
+class Solution {
+public:
+    int countBalls(int lowLimit, int highLimit) {
+        int max = 0;
+        //int n = highLimit - lowLimit + 1;
+        int * arr = new int[50];
+        for(int i = 0; i < 50; i++) arr[i] = 0;
+        
+        for(int i = lowLimit; i <= highLimit; i++){
+            int count = 0;
+            int temp = i;
+            while(temp != 0){
+                int last = temp % 10;
+                count += last;
+                temp/=10;
+            }
+            arr[count]++;
+            if(arr[count] > max){
+                max = arr[count];
+            }
+        }
+        delete [] arr;
+        return max;
+    }
+};
