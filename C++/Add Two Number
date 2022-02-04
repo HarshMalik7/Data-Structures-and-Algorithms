@@ -1,0 +1,81 @@
+//
+
+
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if(l1 == NULL){
+            return l2;
+        }
+        if(l2 == NULL){
+            return l1;
+        }
+        
+        ListNode * ptr1 = l1;
+        ListNode * ptr2 = l2;
+        int carry = 0;
+        int value = (ptr1->val) + (ptr2->val);
+        ListNode * head = new ListNode(value % 10);
+        string str = to_string(value);
+        if(str.size() == 2){
+            carry = 1;
+        }
+        else{
+            carry = 0;
+        }
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next;
+        ListNode * tail = head;
+        
+        while(ptr1 != NULL && ptr2 != NULL){
+            value = (ptr1->val) + (ptr2->val) + carry;
+            ListNode * node = new ListNode(value % 10);
+            str = to_string(value);
+            if(str.size() == 2){
+                carry = 1;
+            }
+            else{
+                carry = 0;
+            }
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next;
+            tail->next = node;
+            tail = node;
+        }
+        
+        while(ptr2 != nullptr){
+            value = ptr2->val + carry;
+            if(value == 10){
+                carry = 1;
+            }
+            else{
+                carry = 0;
+            }
+            ListNode * node = new ListNode(value % 10);
+            tail->next = node;
+            tail = node;
+            ptr2 = ptr2->next;
+        }
+        while(ptr1 != nullptr){
+            value = ptr1->val + carry;
+            if(value == 10){
+                carry = 1;
+            }
+            else{
+                carry = 0;
+            }
+            ListNode * node = new ListNode(value % 10);
+            tail->next = node;
+            tail = node;
+            ptr1 = ptr1->next;
+        }
+        
+        if(carry != 0){
+            ListNode * node = new ListNode(1);
+            tail->next = node;
+        }
+        
+        return head;
+    }
+};
