@@ -1,0 +1,94 @@
+Ques. Given a graph with N vertices (numbered from 0 to N-1) and M undirected edges, then count the distinct 3-cycles in the graph. A 3-cycle PQR is a cycle in which
+(P,Q), (Q,R) and (R,P) are connected by an edge.
+
+Input Format:
+The first line of input contains two space separated integers, that denotes the value of N and M.
+Each of the following M lines contain two integers, that denote the vertices which have an undirected edge between them. Let us denote the two vertices with the symbol n1 and n2.
+
+Output Format:
+Print the count the number of 3-cycles in the given graph
+
+Constraints:
+0 <= N <= 100
+0 <= M <= (N*(N-1))/2
+0 <= u <= N - 1
+0 <= v <= N - 1
+Time Limit: 1 sec
+
+
+Code:
+
+#include <iostream>
+using namespace std;
+
+int trio(bool ** edges, bool * visited, int n, int i, int j){
+     bool * tempVisited = new bool[n];
+    int ans = 0;
+     for(int k = 0; k < n; k++){
+         tempVisited[k] = visited[k];
+     }
+    
+    for(int k = 0; k < n; k++){
+        if(k == i || k == j) continue;
+        if(!tempVisited[k] && edges[k][i] && edges[k][j]){
+            tempVisited[k] = true;
+            ans++;
+        }
+    }
+    return ans;
+}
+
+void duos(bool ** edges, bool * visited, int n, int &ans, int k){
+    bool * tempVisited = new bool[n];
+    
+    for(int i = 0; i < n; i++){
+        tempVisited[i] = visited[i];
+    }
+    
+    for(int i = 0; i < n; i++){
+        if(!tempVisited[i] && edges[k][i]){
+            tempVisited[i] = true;
+            ans += trio(edges, tempVisited, n, k, i);
+        }
+    }
+}
+
+int main() {
+    int n, e;
+    cin >> n >> e;
+    
+    bool ** edges = new bool*[n];
+	bool * visited = new bool[n];
+    
+    for(int i = 0; i < n; i++){
+        edges[i] = new bool[n];
+        visited[i] = false;
+        for(int j = 0; j < n; j++){
+            edges[i][j] = false;
+        }
+    }
+    
+    for(int i = 0; i < e; i++){
+        int n1, n2;
+        cin >> n1 >> n2;
+        
+        edges[n1][n2] = true;
+        edges[n2][n1] = true;
+    }
+    
+    int ans = 0;
+    
+    for(int i = 0; i < n; i++){
+        if(!visited[i]){
+            visited[i] = true;
+            duos(edges, visited, n, ans, i);
+        }
+    }
+    cout << ans << endl;
+    
+    for(int i = 0; i < n; i++){
+        delete [] edges[i];
+    }
+    delete [] edges;
+    delete [] visited;
+}
