@@ -1,0 +1,59 @@
+Ques. A thief wants to loot houses. He knows the amount of money in each house. He cannot loot two consecutive houses. Find the maximum amount of money he can loot.
+
+Input Format:
+The first line of input contains an integer value of 'n'. It is the total number of houses.
+The second line of input contains 'n' integer values separated by a single space denoting the amount of money each house has.
+
+Output Format:
+Print the the maximum money that can be looted.
+
+Constraints:
+0 <= n <= 10 ^ 4
+Time Limit: 1 sec
+
+
+
+Dynamic Programming Code:
+
+#include <iostream>
+using namespace std;
+
+int maxMoneyLooted(int *arr, int n){
+	if(n <= 0){
+        return 0;
+    }
+    
+    int * loot = new int[n];
+    int max = 0;
+    int ans = 0;
+    loot[0] = arr[0];
+    loot[1] = arr[1];
+    
+    for(int i = 2; i < n; i++){
+        for(int j = i-2; j >= 0; j--){
+            if(loot[j] > max) max = loot[j];
+        }
+        loot[i] = arr[i] + max;
+        if(loot[i] > ans) ans = loot[i];
+        max = 0;
+    }
+    
+    delete [] loot;
+    
+    return ans;
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+	int *arr = new int[n];
+	for (int i = 0; i < n; i++)
+	{
+		cin >> arr[i];
+	}
+
+	cout << maxMoneyLooted(arr, n);
+
+	delete[] arr;
+}
