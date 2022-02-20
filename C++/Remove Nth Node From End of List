@@ -1,0 +1,37 @@
+//Question no.19 on Leetcode
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        stack<ListNode*> stk;
+        ListNode*temp = head;
+        while(temp!=nullptr){
+            stk.push(temp);
+            temp = temp->next;
+        }
+        temp = stk.top();
+        stk.pop();
+        n--;
+        ListNode* top;
+        if(!stk.empty()) top = stk.top();
+        if(n == 0){
+            if(stk.empty()) return nullptr;
+            top->next = nullptr;
+            return head;
+        }
+        while(!stk.empty()){
+            top = stk.top();
+            n--;
+            stk.pop();
+            if(n == 0){
+                if(stk.empty()){
+                    return temp;
+                }
+                continue;
+            }
+            top->next = temp;
+            temp = top;
+        }
+        return head;
+    }
+};
